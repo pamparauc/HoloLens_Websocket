@@ -6,54 +6,64 @@ using UnityEngine.SceneManagement;
 
 public class SingletonScene : Singleton<SingletonScene>
 {
-    public string switchScene = "";
+    public GameObject demoscene;
 
-    public GameObject demo;
+    public GameObject castlescene;
 
-    public bool youCanChangeScene = false;
+    public GameObject holoscene;
+
+    public GameObject mountainscene;
+
+    public bool holoSocket = true;
+
+    public bool demo = false;
+
+    public bool castle = false;
+
+    public bool mountain = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        holoSocket = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (youCanChangeScene == true)
+        if (holoSocket == true)
         {
-            if (switchScene != "")
-            {
-                Scene s = SceneManager.GetActiveScene();
-                if (s.name.Contains("demo"))
-                {
-                    //SceneManager.LoadScene("holoSocket");
-                    demo.SetActive(false);
-                }
-                    
-                else if (s.name.Contains("Socket"))
-                {
-                    //SceneManager.LoadScene("demoScene_free");
-                    demo.SetActive(true);
-                }
-                    
-                //switchScene = "";
-                //youCanChangeScene = false;
-            }
-                
+            holoscene.SetActive(true);
+            demoscene.SetActive(false);
+            castlescene.SetActive(false);
+            mountainscene.SetActive(false);
+            return;
+        }
+        if (demoscene == true)
+        {
+            holoscene.SetActive(false);
+            demoscene.SetActive(true);
+            castlescene.SetActive(false);
+            mountainscene.SetActive(false);
+            //return; WHY???
+        }
+        if (castle == true)
+        {
+            holoscene.SetActive(false);
+            demoscene.SetActive(false);
+            mountainscene.SetActive(false);
+            castlescene.SetActive(true);
+            return;
+        }
+
+        if (mountain == true)
+        {
+            holoscene.SetActive(false);
+            demoscene.SetActive(false);
+            castlescene.SetActive(false);
+            mountainscene.SetActive(true);
+            return;
         }
     }
 
-    //private void Awake() 
-    //{
-    //    if (Instance != null && Instance != this)
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-
-    //    Instance = this;
-    //    DontDestroyOnLoad(gameObject);
-    //}
 }

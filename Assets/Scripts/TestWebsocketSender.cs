@@ -8,13 +8,11 @@ using System;
 
 public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
 {
-    SingletonScene i;
     WebSocket websocket;
     bool isClicked;
     bool updateTextInfo;
     String newTextInfo;
     TextMesh textinfo;
-    bool isHoloSocket = true;
 
     public void Connect()
     {
@@ -46,7 +44,6 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
    
     void Start()
     {
-        i = SingletonScene.Instance;
         textinfo = GameObject.Find("infotext").GetComponentInChildren<TextMesh>();
         Connect();
         websocket.OnOpen += (sender, e) =>
@@ -67,29 +64,37 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
             Debug.Log("WebSocket Message Type: " + e.GetType() + ", Data: " + e.Data);
             updateTextInfo = true;
             newTextInfo = e.Data;
-            if (e.Data.Contains("test") == true)
+            if (e.Data.Contains("demoscene") == true)
             {
-                try
-                {
-                    if (!isHoloSocket)
-                    {
-                        SingletonScene.Instance.youCanChangeScene = true;
-                        isHoloSocket = !isHoloSocket;
-                        SingletonScene.Instance.switchScene = "holoSocket";
-                        Debug.Log("Incarcam scena holoSocket");
-                    }
-                    else if (isHoloSocket)
-                    {
-                        SingletonScene.Instance.youCanChangeScene = true;
-                        isHoloSocket = !isHoloSocket;
-                        SingletonScene.Instance.switchScene = "demoScene_free";
-                        Debug.Log("Incarcam scena demoScene_free");
-                    }
-                }
-               catch(Exception exception)
-                {
-                    Debug.Log("EXCEPTION: " + exception.Message);
-                }
+                SingletonScene.Instance.demo = true;
+                SingletonScene.Instance.holoSocket = false;
+                SingletonScene.Instance.castle = false;
+                SingletonScene.Instance.mountain = false ;
+                return;
+            }
+            else if (e.Data.Contains("holoSocket"))
+            {
+                SingletonScene.Instance.holoSocket = true;
+                SingletonScene.Instance.demo = false;
+                SingletonScene.Instance.castle = false;
+                SingletonScene.Instance.mountain = false;
+                return;
+            }
+            else if (e.Data.Contains("castle"))
+            {
+                SingletonScene.Instance.castle = true;
+                SingletonScene.Instance.holoSocket = false;
+                SingletonScene.Instance.demo = false;
+                SingletonScene.Instance.mountain = false;
+                return;
+            }
+            else if (e.Data.Contains("mountain"))
+            {
+                SingletonScene.Instance.mountain = true;
+                SingletonScene.Instance.castle = false;
+                SingletonScene.Instance.holoSocket = false;
+                SingletonScene.Instance.demo = false;
+                return;
             }
         };
 
@@ -109,11 +114,47 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
    // Update is called once per frame
    void Update()
    {
-        if (Input.GetKeyUp("s"))
+        if (Input.GetKeyUp("f"))
         {
             try
             {
-                SendCommand("test message");
+                SendCommand("demoscene");
+            }
+            catch (AggregateException e)
+            {
+                Debug.Log("EXCEPTION: " + e.Message);
+            }
+        }
+
+        if (Input.GetKeyUp("h"))
+        {
+            try
+            {
+                SendCommand("holoSocket");
+            }
+            catch (AggregateException e)
+            {
+                Debug.Log("EXCEPTION: " + e.Message);
+            }
+        }
+
+        if (Input.GetKeyUp("c"))
+        {
+            try
+            {
+                SendCommand("castle");
+            }
+            catch (AggregateException e)
+            {
+                Debug.Log("EXCEPTION: " + e.Message);
+            }
+        }
+
+        if (Input.GetKeyUp("m"))
+        {
+            try
+            {
+                SendCommand("mountain");
             }
             catch (AggregateException e)
             {
@@ -159,7 +200,7 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        if (!isClicked)
+        /*if (!isClicked)
         {
             this.GetComponent<MeshRenderer>().material.color = Color.green;
             isClicked = true;
@@ -186,7 +227,7 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
                 Debug.Log("EXCEPTION: " + e.Message);
             }
             isClicked = false;
-        }
+        }*/
 
     }
 }

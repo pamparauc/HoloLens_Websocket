@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/holoSocket.unity
     guid: c1f7a9b7af51ca447ad71961cf79c41b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Fantasy Forest Environment Free Sample/Scenes/demoScene_free.unity
     guid: 7769f33fb4fa2e5458344a36556ad760
   m_configObjects: {}

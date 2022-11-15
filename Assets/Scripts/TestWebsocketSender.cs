@@ -5,18 +5,20 @@ using WebSocketSharp;
 using HoloToolkit.Unity.InputModule;
 using System;
 
+
 public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
 {
+    SingletonScene i;
     WebSocket websocket;
     bool isClicked;
     bool updateTextInfo;
     String newTextInfo;
     TextMesh textinfo;
-
+    bool isHoloSocket = true;
 
     public void Connect()
     {
-        websocket = new WebSocket("ws://138.67.205.185:8000/");
+        websocket = new WebSocket("ws://192.168.10.106:3000/");
         try
         {
             websocket.ConnectAsync();
@@ -44,6 +46,7 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
    
     void Start()
     {
+        i = SingletonScene.Instance;
         textinfo = GameObject.Find("infotext").GetComponentInChildren<TextMesh>();
         Connect();
         websocket.OnOpen += (sender, e) =>
@@ -64,8 +67,30 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
             Debug.Log("WebSocket Message Type: " + e.GetType() + ", Data: " + e.Data);
             updateTextInfo = true;
             newTextInfo = e.Data;
-
-
+            if (e.Data.Contains("test") == true)
+            {
+                try
+                {
+                    if (!isHoloSocket)
+                    {
+                        SingletonScene.Instance.youCanChangeScene = true;
+                        isHoloSocket = !isHoloSocket;
+                        SingletonScene.Instance.switchScene = "holoSocket";
+                        Debug.Log("Incarcam scena holoSocket");
+                    }
+                    else if (isHoloSocket)
+                    {
+                        SingletonScene.Instance.youCanChangeScene = true;
+                        isHoloSocket = !isHoloSocket;
+                        SingletonScene.Instance.switchScene = "demoScene_free";
+                        Debug.Log("Incarcam scena demoScene_free");
+                    }
+                }
+               catch(Exception exception)
+                {
+                    Debug.Log("EXCEPTION: " + exception.Message);
+                }
+            }
         };
 
         websocket.OnError += (sender, e) =>

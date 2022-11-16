@@ -70,6 +70,7 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
                 SingletonScene.Instance.holoSocket = false;
                 SingletonScene.Instance.castle = false;
                 SingletonScene.Instance.mountain = false ;
+                SingletonScene.Instance.lab = false;
                 return;
             }
             else if (e.Data.Contains("holoSocket"))
@@ -78,6 +79,7 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
                 SingletonScene.Instance.demo = false;
                 SingletonScene.Instance.castle = false;
                 SingletonScene.Instance.mountain = false;
+                SingletonScene.Instance.lab = false;
                 return;
             }
             else if (e.Data.Contains("castle"))
@@ -86,11 +88,22 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
                 SingletonScene.Instance.holoSocket = false;
                 SingletonScene.Instance.demo = false;
                 SingletonScene.Instance.mountain = false;
+                SingletonScene.Instance.lab = false;
                 return;
             }
             else if (e.Data.Contains("mountain"))
             {
                 SingletonScene.Instance.mountain = true;
+                SingletonScene.Instance.castle = false;
+                SingletonScene.Instance.holoSocket = false;
+                SingletonScene.Instance.demo = false;
+                SingletonScene.Instance.lab = false;
+                return;
+            }
+            else if (e.Data.Contains("lab"))
+            {
+                SingletonScene.Instance.lab = true;
+                SingletonScene.Instance.mountain = false;
                 SingletonScene.Instance.castle = false;
                 SingletonScene.Instance.holoSocket = false;
                 SingletonScene.Instance.demo = false;
@@ -155,6 +168,18 @@ public class TestWebsocketSender : MonoBehaviour, IInputClickHandler
             try
             {
                 SendCommand("mountain");
+            }
+            catch (AggregateException e)
+            {
+                Debug.Log("EXCEPTION: " + e.Message);
+            }
+        }
+
+        if (Input.GetKeyUp("l"))
+        {
+            try
+            {
+                SendCommand("lab");
             }
             catch (AggregateException e)
             {

@@ -14,6 +14,8 @@ public class SingletonScene : Singleton<SingletonScene>
 
     public GameObject mountainscene;
 
+    public GameObject labscene;
+
     public bool holoSocket = true;
 
     public bool demo = false;
@@ -21,6 +23,8 @@ public class SingletonScene : Singleton<SingletonScene>
     public bool castle = false;
 
     public bool mountain = false;
+
+    public bool lab = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +41,7 @@ public class SingletonScene : Singleton<SingletonScene>
             demoscene.SetActive(false);
             castlescene.SetActive(false);
             mountainscene.SetActive(false);
+            labscene.SetActive(false);
             return;
         }
         if (demoscene == true)
@@ -45,6 +50,7 @@ public class SingletonScene : Singleton<SingletonScene>
             demoscene.SetActive(true);
             castlescene.SetActive(false);
             mountainscene.SetActive(false);
+            labscene.SetActive(false);
             //return; WHY???
         }
         if (castle == true)
@@ -53,6 +59,7 @@ public class SingletonScene : Singleton<SingletonScene>
             demoscene.SetActive(false);
             mountainscene.SetActive(false);
             castlescene.SetActive(true);
+            labscene.SetActive(false);
             return;
         }
 
@@ -62,6 +69,16 @@ public class SingletonScene : Singleton<SingletonScene>
             demoscene.SetActive(false);
             castlescene.SetActive(false);
             mountainscene.SetActive(true);
+            labscene.SetActive(false);
+            return;
+        }
+        if (lab == true)
+        {
+            holoscene.SetActive(false);
+            demoscene.SetActive(false);
+            castlescene.SetActive(false);
+            mountainscene.SetActive(false);
+            labscene.SetActive(true);
             return;
         }
     }
